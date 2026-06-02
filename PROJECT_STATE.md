@@ -3,16 +3,15 @@
 - Installed Laravel project
 - Created database connection
 - Built migrations for 8 tables
+- Login/Logout + Authentication
 
 
-//## In Progress
-- Student CRUD system
-- Authentication
+## In Progress
+- View Menu Items
 
-//## Todo
-- Dashboard UI
-- Validation
-- API endpoints
+
+## Todo
+- CRUD
 
 //## Issues
 - Login redirect not working

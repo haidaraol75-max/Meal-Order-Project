@@ -44,7 +44,8 @@ class UserController extends Controller
         if (Auth::attempt($credentials))
         {
            
-            $user = Auth::user();
+            $user = Auth::user(); 
+        
 
              /** @var \App\Models\User $user */;
             $token = $user->createToken('auth_token')->plainTextToken;
