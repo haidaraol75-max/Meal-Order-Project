@@ -27,7 +27,7 @@ class UserController extends Controller
             'role_id' => $request->role_id,
         ]);
 
-       // 3|MBWYcqyAQKMLiCS3xNL77pww59godEwch4huGRRQ3a37df56
+       
         return response()->json([
             'message' => 'User registered successfully',
             'user' => $user,

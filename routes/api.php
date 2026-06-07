@@ -24,5 +24,9 @@ Route::post('logout',[UserController::class,'logout'])->middleware('auth:sanctum
 
 
 
-Route::get('menu-items', [MenuItemController::class, 'index']);
-
+Route::get('menu-items', [MenuItemController::class, 'index']); // done 
+Route::get('menu-items/{menuItem}',[MenuItemController::class,'show']); // done 
+Route::post('menu-items', [MenuItemController::class,'store']);// done
+Route::put('menu-items/{menuItem}', [MenuItemController::class, 'update']); // done
+Route::delete('menu-items/{menuItem}', [MenuItemController::class,'destroy']);// done 
+Route::patch('menu-items/{menuItem}/status', [MenuItemController::class, 'updateStatus']);
