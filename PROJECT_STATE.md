@@ -1,21 +1,17 @@
 # Project State - Meal Order
-//## Done
-- Installed Laravel project
-- Created database connection
-- Built migrations for 8 tables
-- Login/Logout + Authentication
 
 
+## Current Status
+Development in progress.
+
+## Completed
+- Database schema designed.
+- Eloquent relationships implemented.
+- User authentication (login and registration).
+- Menu management CRUD operations.
+- Basic project structure established.
 ## In Progress
-- View Menu Items
-
-
-## Todo
-- CRUD
-
-//## Issues
-- Login redirect not working
-- Migration error fixed partially
-
-//## Last Update
-2026-05-24
+- Order creation workflow.
+- Order validation and business logic.
+## Last Update
+- 2026-06-08
