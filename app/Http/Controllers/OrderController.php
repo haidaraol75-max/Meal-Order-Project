@@ -140,8 +140,14 @@ class OrderController extends Controller
     }
 
 
-    public function show( int $orderId)
+    public function show( $orderId)
     {
+        if (!is_numeric($orderId)) 
+        {
+             return response()->json([
+            'message' => 'Invalid order id.'
+              ], 400);
+        }
         $order = Order::with([
         'menuItems',
         'restaurantTable'
