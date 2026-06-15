@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('quantity')->default(1);// لعدم ادخال قيم عشرية او سالبة
+            $table->unsignedInteger('quantity')->default(1);
             $table->decimal('amount', 10, 2);
-            $table->timestamp('payment_time')->nullable(); // تسجيل وقت الدفع بدقة عالية تاريخ ووقت
+            $table->timestamp('payment_time')->nullable(); 
            $table->foreignId('order_id')->unique()->constrained('orders')->cascadeOnDelete();
             $table->foreignId('table_id')->nullable()->constrained('restaurant_tables')->onDelete('set null')->after('amount');
             $table->timestamps();

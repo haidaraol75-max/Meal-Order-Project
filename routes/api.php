@@ -39,7 +39,9 @@ Route::patch('menu-items/{menuItem}/status', [MenuItemController::class, 'update
     Route::get('orders/{order_id}', [OrderController::class, 'show']);
     Route::get('orders/{table_id}/table', [OrderController::class, 'getOrdersByTable']);
     Route::patch('orders/{order_id}/status', [OrderController::class, 'updateStatus']);
-
+    Route::post('orders/{order}/pay', [OrderController::class, 'processPayment']);
+ 
+//___________________________ order creation => sended___________________________
 
 
 

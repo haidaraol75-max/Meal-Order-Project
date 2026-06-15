@@ -10,8 +10,10 @@ Development in progress.
 - User authentication (login and registration).
 - Menu management CRUD operations.
 - Basic project structure established.
-## In Progress
 - Order creation workflow.
 - Order validation and business logic.
+## In Progress
+- Chef Dashboard
+- Cashier Dashboard
 ## Last Update
 - 2026-06-08

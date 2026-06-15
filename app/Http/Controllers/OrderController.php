@@ -130,6 +130,12 @@ class OrderController extends Controller
         {
             return response()->json(['message' => 'Order not found.'], 404);
         }
+        if ($order->order_status === 'Delivered' || $order->payment_status === 'paid') 
+        {
+            return response()->json([
+            'message' => 'Cannot update status for a delivered or already paid order.' 
+             ], 422);
+        }
 
         $order->order_status = $request->order_status;
         $order->save();
@@ -175,7 +181,7 @@ class OrderController extends Controller
         }
 
           $orders = $query
-          ->orderBy('updated_at', 'desc')
+          ->orderBy('created_at', 'asc')
           ->get();
 
         return response()->json([
@@ -183,7 +189,53 @@ class OrderController extends Controller
           ]);
        
     }
+
+
+
+    public function processPayment(Order $order)
+    {
+       
+       $order->load('invoice');
+
+      
+       if (!in_array($order->order_status, ['Ready', 'Delivered'])) 
+       {
+        return response()->json(['message' => 'Cannot process payment. Order must be Ready or Delivered.'], 422);
+       }
+
+       if ($order->payment_status === 'paid') 
+       {
+         return response()->json(['message' => 'This order has already been paid.'], 422);
+       }
+
+    
+       try {
+            DB::transaction(function () use ($order) {
+            $order->payment_status = 'paid';
+            $order->save();
+
+            if ($order->invoice) {
+                $order->invoice->payment_time = now();
+                $order->invoice->save();
+            }
+          });
+
+          return response()->json([
+            'message' => 'Payment processed and invoice generated successfully.',
+            'data' => $order->load('invoice', 'menuItems')
+          ], 200);
+
+        } catch (\Exception $e) {
+          return response()->json(['message' => 'Payment failed. Please try again.'], 500);
+         }
+
+    }
+
+      
 }
+
+
+
 
 
 
