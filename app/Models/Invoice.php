@@ -10,6 +10,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Invoice extends Model
 {
       use HasFactory;
+      protected $fillable = [
+        'quantity',
+        'amount',
+        'payment_time',
+        'order_id',
+        'table_id',
+    ];
    
     public function restaurantTable(): BelongsTo
     {
@@ -17,8 +24,8 @@ class Invoice extends Model
     }
 
     public function order(): BelongsTo
-   {
+    {
       return $this->belongsTo(Order::class, 'order_id');
-   }
+    }
 }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,10 +40,11 @@ Route::patch('menu-items/{menuItem}/status', [MenuItemController::class, 'update
     Route::get('orders/{order_id}', [OrderController::class, 'show']);
     Route::get('orders/{table_id}/table', [OrderController::class, 'getOrdersByTable']);
     Route::patch('orders/{order_id}/status', [OrderController::class, 'updateStatus']);
-    Route::post('orders/{order}/pay', [OrderController::class, 'processPayment']);
+    Route::post('orders/{order}/pay', [OrderController::class, 'processPayment']); // not send
  
 //___________________________ order creation => sended___________________________
 
 
-
+Route::get('invoices', [InvoiceController::class, 'index']);         //not send 
+Route::get('invoices/{invoice}', [InvoiceController::class, 'show']);//  not send
 ?>

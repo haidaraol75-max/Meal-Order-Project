@@ -11,13 +11,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class RestaurantTable extends Model
 {
     
-    public function orders(): HasMany
-    {
+     public function orders(): HasMany
+     {
         return $this->hasMany(Order::class, 'table_id'); 
-    }
+     }
 
      public function invoices(): HasMany
-    {
+     {
         return $this->hasMany(Invoice::class,'table_id');
-    }
+     }
 }

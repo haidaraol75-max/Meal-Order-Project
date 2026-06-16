@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\RestaurantTable;
 use App\Models\MenuItem;
@@ -189,50 +190,67 @@ class OrderController extends Controller
           ]);
        
     }
-
-
-
     public function processPayment(Order $order)
     {
-       
-       $order->load('invoice');
-
-      
-       if (!in_array($order->order_status, ['Ready', 'Delivered'])) 
-       {
-        return response()->json(['message' => 'Cannot process payment. Order must be Ready or Delivered.'], 422);
-       }
-
-       if ($order->payment_status === 'paid') 
-       {
-         return response()->json(['message' => 'This order has already been paid.'], 422);
-       }
+    
+        $order->load('invoice');
 
     
-       try {
+        if (!in_array($order->order_status, ['Ready', 'Delivered'])) {
+          return response()->json(['message' => 'Cannot process payment. Order must be Ready or Delivered.'], 422);
+        }
+
+        if ($order->payment_status === 'paid') {
+        return response()->json(['message' => 'This order has already been paid.'], 422);
+        }
+
+       
+        try {
             DB::transaction(function () use ($order) {
+           
             $order->payment_status = 'paid';
             $order->save();
 
             if ($order->invoice) {
+                
                 $order->invoice->payment_time = now();
                 $order->invoice->save();
+            } else {
+               
+                Invoice::create([
+                    'order_id'     => $order->id,
+                    'amount'       => $order->total_amount, 
+                    'quantity'     => 1,
+                    'payment_time' => now(), 
+                    'table_id'     => $order->table_id, 
+                ]);
             }
-          });
+        });
 
-          return response()->json([
+        
+        return response()->json([
             'message' => 'Payment processed and invoice generated successfully.',
-            'data' => $order->load('invoice', 'menuItems')
-          ], 200);
+            'data'    => $order->load('invoice')
+        ], 200);
 
         } catch (\Exception $e) {
-          return response()->json(['message' => 'Payment failed. Please try again.'], 500);
-         }
-
+     
+        return response()->json([
+            'message' => 'Payment failed. Please try again.',
+            'error'   => $e->getMessage() 
+        ], 500);
+        }
     }
+    
+    
+}
+
+
+  
+    
 
       
-}
+
 
 
 

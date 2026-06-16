@@ -15,5 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, $request) {
+        if ($request->is('api/*')) {
+            return response()->json([
+                'message' => 'The requested order or resource was not found.'
+            ], 404);
+        }
+    });
     })->create();
