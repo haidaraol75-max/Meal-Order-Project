@@ -9,14 +9,19 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-    
-         $invoices = Invoice::with(['order', 'restaurantTable'])
-        ->orderBy('created_at', 'asc')
-        ->get();
+        $invoices = Invoice::select(
+        'id',
+        'amount',
+        'payment_time',
+        'order_id',
+        'table_id'
+    )
+    ->orderBy('created_at', 'asc')
+    ->get();
 
-         return response()->json([
-          'data' => $invoices
-    ]);
+return response()->json([
+    'data' => $invoices
+]);
     }
     public function show(Invoice $invoice)
     {

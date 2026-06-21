@@ -20,7 +20,9 @@ class Invoice extends Model
    
     public function restaurantTable(): BelongsTo
     {
-        return $this->belongsTo(RestaurantTable::class,'table_id'); 
+        return $this->belongsTo(RestaurantTable::class,'table_id')->withDefault([
+        'table_number' => 'Takeaway' 
+        ]);
     }
 
     public function order(): BelongsTo

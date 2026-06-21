@@ -8,7 +8,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\MenuItemController; 
 use App\Http\Controllers\OrderController; 
 
-Route::get('/user', function (Request $request) {
+Route::get('user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
@@ -19,10 +19,17 @@ Route::middleware('auth:sanctum')->group(
     function () 
     {
         Route::post('create_employee',[UserController::class,'create_employee']);
+        Route::get('users', [UserController::class, 'index']);
+        Route::put('users/{user}', [UserController::class, 'update_employee']);
+        Route::delete('users/{user}', [UserController::class, 'destroy_employee']);
+        Route::get('users/{user}', [UserController::class, 'show']);
+        Route::post('logout',[UserController::class,'logout']);
+
     } 
 );
+
 Route::post('login',[UserController::class,'login']);
-Route::post('logout',[UserController::class,'logout'])->middleware('auth:sanctum');
+
 
 
 
@@ -40,11 +47,14 @@ Route::patch('menu-items/{menuItem}/status', [MenuItemController::class, 'update
     Route::get('orders/{order_id}', [OrderController::class, 'show']);
     Route::get('orders/{table_id}/table', [OrderController::class, 'getOrdersByTable']);
     Route::patch('orders/{order_id}/status', [OrderController::class, 'updateStatus']);
-    Route::post('orders/{order}/pay', [OrderController::class, 'processPayment']); // not send
+    Route::post('orders/{order}/pay', [OrderController::class, 'processPayment']); 
  
 //___________________________ order creation => sended___________________________
 
 
-Route::get('invoices', [InvoiceController::class, 'index']);         //not send 
-Route::get('invoices/{invoice}', [InvoiceController::class, 'show']);//  not send
+Route::get('invoices', [InvoiceController::class, 'index']);         
+Route::get('invoices/{invoice}', [InvoiceController::class, 'show']);
+//___________________________ invoice creation => sended___________________________
+
+
 ?>
